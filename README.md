@@ -11,9 +11,11 @@ TODO(dkorolev): Have a `localhost:` URL to "open"? =)
 This is to be run inside Termux. A single copy-paste.
 
 ```
+# NOTE(dkorolev): This pops out the window for the user to choose "allow" or "deny", better do it first thing, IMHO.
+# termux-setup-storage
+
 yes | pkg upgrade
 
-# NOTE(dkorolev): Try `patchelf` next if this does not work.
 yes | pkg install -y git zsh screen libuv libexpat vim-python curl wget openssh openssl openssl-tool netcat-openbsd libqrencode zbar
 
 mkdir -p .ssh
@@ -45,7 +47,7 @@ chmod 600 .ssh/id_ed25519
 #cp dotfiles/.zshrc .
 
 for i in .zshrc .vimrc .screenrc .inputrc ; do
-  https://raw.githubusercontent.com/dkorolev/dotfiles/main/$i
+  wget https://raw.githubusercontent.com/dkorolev/dotfiles/main/$i
 done
 
 export PATH=$PATH:$PWD
@@ -89,11 +91,11 @@ EOF
 
 pip install colorama
 
-echo '(echo -n 'tmx://'; echo "TMXUSER:$(whoami)" | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD) | qrencode -t ascii | python3 .fmtqr.py)' >~/w
+echo '(echo -n 'tmx://'; echo "TMXUSER:$(whoami)" | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD) | qrencode -t ascii | python3 .fmtqr.py' >~/w
 
 chmod +x ~/w
 
-termux-setup-storage
+w
 
 whoami
 
