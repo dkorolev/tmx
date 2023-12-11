@@ -59,7 +59,32 @@ sshd
 # passwd
 # ipconfig
 
-echo '(echo -n 'tmx://'; echo "TMXUSER:$(whoami)" | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD) | qrencode -t ascii | sed "s/\#/█/g"' >~/w
+cat <<EOF >.fmtqr.py
+import sys
+from colorama import Back, Style
+lines = []
+max_width = 0
+for line in sys.stdin:
+  lines.append(line)
+  max_width = max(max_width, len(line))
+for line in lines:
+  black = None
+  for i in range(max_width):
+    if i >= len(line) or line[i] == "#":
+      if not black == True:
+        black = True
+        print(Back.BLACK, end="")
+    else:
+      if not black == False:
+        black = False
+        print(Back.WHITE, end="")
+    print(" ", end="")
+  print(Style.RESET_ALL)
+EOF
+
+pip install colorama
+
+echo '(echo -n 'tmx://'; echo "TMXUSER:$(whoami)" | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD) | qrencode -t ascii | python3 .fmtqr.py)' >~/w
 
 chmod +x ~/w
 
