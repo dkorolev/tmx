@@ -5,7 +5,7 @@ TODO(dkorolev): Turn this into a blog post. Add a link.
 This is to be run inside Termux. A single copy-paste.
 
 ```
-pkg upgrade
+yes | pkg -y upgrade
 yes | pkg install -y git zsh screen vim-python curl wget openssh openssl-tool netcat-openbsd libqrencode zbar
 
 mkdir -p .ssh
