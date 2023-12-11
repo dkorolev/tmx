@@ -1,5 +1,6 @@
 # `tmx-tmp`
 
+TODO(dkorolev): Add `zsh` and `wget` the dotfile.
 TODO(dkorolev): Add `y` to everything, including installs and the `ssh` command.
 
 TODO(dkorolev): Turn this into a blog post. Add a link.
