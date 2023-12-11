@@ -8,8 +8,10 @@ TODO(dkorolev): Have a `localhost:` URL to "open"? =)
 This is to be run inside Termux. A single copy-paste.
 
 ```
-yes | pkg -y upgrade
-yes | pkg install -y git zsh screen vim-python curl wget openssh openssl-tool netcat-openbsd libqrencode zbar
+yes | pkg upgrade
+
+# NOTE(dkorolev): Try `patchelf` next if this does not work.
+yes | pkg install -y git zsh screen libuv libexpat vim-python curl wget openssh openssl openssl-tool netcat-openbsd libqrencode zbar
 
 mkdir -p .ssh
 chmod 700 .ssh
@@ -92,5 +94,5 @@ termux-setup-storage
 
 whoami
 
-ssh -o StrictHostKeyChecking=accept-new -N -R 8022:localhost:8022 tmx@192.168.1.111
+ssh -o StrictHostKeyChecking=accept-new -N -R 8022:localhost:8022 tmx@172.20.4.88
 ```
