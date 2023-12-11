@@ -1,15 +1,12 @@
 # `tmx-tmp`
 
-TODO(dkorolev): Add `zsh` and `wget` the dotfile.
-TODO(dkorolev): Add `y` to everything, including installs and the `ssh` command.
-
 TODO(dkorolev): Turn this into a blog post. Add a link.
 
 This is to be run inside Termux. A single copy-paste.
 
 ```
 pkg upgrade
-pkg install -y git openssh netcat-openbsd zbar curl
+yes | pkg install -y git zsh screen vim-python curl wget openssh openssl-tool netcat-openbsd libqrencode zbar
 
 mkdir -p .ssh
 chmod 700 .ssh
@@ -36,9 +33,20 @@ EOF
 chmod 600 .ssh/id_ed25519.pub
 chmod 600 .ssh/id_ed25519
 
-git clone https://github.com/dkorolev/dotfiles
-cp dotfiles/.zshrc .
-echo zsh | chsh
+#git clone https://github.com/dkorolev/dotfiles
+#cp dotfiles/.zshrc .
+
+for i in .zshrc .vimrc .screenrc .inputrc ; do
+  https://raw.githubusercontent.com/dkorolev/dotfiles/main/$i
+done
+
+export PATH=$PATH:$PWD
+echo 'export PATH=$PATH:$PWD' >>~/.zshrc
+
+export SECRET_TMX_PASSWORD=lopata
+echo 'export SECRET_TMX_PASSWORD=lopata' >>~/.zshrc
+
+chsh -s zsh
 
 # termux-setup-storage
 
@@ -49,6 +57,10 @@ sshd
 
 # passwd
 # ipconfig
+
+echo '(echo -n 'tmx://'; echo "TMXUSER:$(whoami)" | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD) | qrencode -t ascii | sed "s/\#/█/g"' >~/w
+
+chmod +x ~/w
 
 whoami
 
