@@ -1,6 +1,9 @@
 # `tmx-tmp`
 
 TODO(dkorolev): Turn this into a blog post. Add a link.
+TODO(dkorolev): No `-y` for one of `pkg` commands.
+TODO(dkorolev): `curl` doesn't work.
+TODO(dkorolev): Have a `localhost:` URL to "open"? =)
 
 This is to be run inside Termux. A single copy-paste.
 
