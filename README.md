@@ -48,8 +48,6 @@ echo 'export SECRET_TMX_PASSWORD=lopata' >>~/.zshrc
 
 chsh -s zsh
 
-# termux-setup-storage
-
 sshd
 
 # git clone https://github.com/dkorolev/current
@@ -62,9 +60,9 @@ echo '(echo -n 'tmx://'; echo "TMXUSER:$(whoami)" | openssl aes-256-cbc -pbkdf2 
 
 chmod +x ~/w
 
+termux-setup-storage
+
 whoami
 
-ssh -N -R 8022:localhost:8022 tmx@192.168.1.111
-
-#ssh -R 8022:localhost:8022 tmx@192.168.1.111
+ssh -o StrictHostKeyChecking=accept-new -N -R 8022:localhost:8022 tmx@192.168.1.111
 ```
