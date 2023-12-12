@@ -4,6 +4,9 @@ TODO(dkorolev): Turn this into a blog post. Add a link.
 
 TODO(dkorolev): Add the link to the Termux `.apk` link I'm using.
 
+TODO(dkorolev): Daemonize the HTTP listener.
+TODO(dkorolev): Add a logfile for remote tunnels open and closed. Add `flock`.
+
 TODO(dkorolev): Have a `localhost:` URL to "open"? =)
 
 This is to be run inside Termux. A single copy-paste.
