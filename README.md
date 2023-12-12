@@ -5,6 +5,7 @@ TODO(dkorolev): Turn this into a blog post. Add a link.
 TODO(dkorolev): Add a 403 redirect so that the page in Android's Chrome is not auto-reloading all the time!
 
 TODO(dkorolev): Add a note on how many seconds did the setup take.
+TODO(dkorolev): Add the flag to not check the device key to the example final ssh command from the host into Termux.
 
 TODO(dkorolev): Daemonize the HTTP listener.
 TODO(dkorolev): Add a logfile for remote tunnels open and closed. Add `flock`.
