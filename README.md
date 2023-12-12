@@ -2,11 +2,12 @@
 
 TODO(dkorolev): Turn this into a blog post. Add a link.
 
-TODO(dkorolev): Add the link to the Termux `.apk` link I'm using.
 TODO(dkorolev): Add a 403 redirect so that the page in Android's Chrome is not auto-reloading all the time!
 
 TODO(dkorolev): Daemonize the HTTP listener.
 TODO(dkorolev): Add a logfile for remote tunnels open and closed. Add `flock`.
+TODO(dkorolev): Don't show terminal output of the HTTP server and `ssh` tunnel-opening code on the screen.
+TODO(dkorolev): Organize the code better, under `scripts/` or `.scripts/`, no one-char names. Aliases are OK though.
 
 TODO(dkorolev): Have a `localhost:` URL to "open"? =)
 
