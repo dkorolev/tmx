@@ -16,6 +16,8 @@ Future work:
 
 * The QR codes idea may be big. It's a very secure way to exchange short messages. Although `zbarimg` proved to be not good enough, and my first idea to not use any Browser / HTTP server but just take a picture from the Android device and have the scripts do the rest didn't work. 
 
+* Another minor yet fun idea: Have my Android devices all around the home and/or office turn into a distributed compilation cluster. And build artifacts cache.
+
 TODO(dkorolev): Turn this into a blog post. Add a link.
 
 TODO(dkorolev): Add a 403 redirect so that the page in Android's Chrome is not auto-reloading all the time!
