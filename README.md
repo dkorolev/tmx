@@ -26,6 +26,12 @@ Instructions:
 * Scan the printed QR code from the Android device.
 * Sacrifice and Apple and `ssh -p 8022 tmx@localhost` !
 
+Before I forget, longer-term plans:
+
+* Convert this into a custom-built `.apk`, in a separate Github repo, built by an Action?
+* Make it easy to build on top of these `.apk`-creating steps, to spawn Android-first dev envs with custom pre-cloned code and pre-built / pre-installed deps.
+* Add support for analyzing QR codes from the SD card, not from the "URL", "followed by" the browser, going to localhost's `python3` HTTP server.
+
 ```
 # NOTE(dkorolev): This pops out the window for the user to choose "allow" or "deny", better do it first thing, IMHO.
 # termux-setup-storage
