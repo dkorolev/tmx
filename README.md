@@ -2,9 +2,7 @@
 
 TODO(dkorolev): Turn this into a blog post. Add a link.
 
-TODO(dkorolev): No `-y` for one of `pkg` commands.
-
-TODO(dkorolev): `curl` doesn't work.
+TODO(dkorolev): Add the link to the Termux `.apk` link I'm using.
 
 TODO(dkorolev): Have a `localhost:` URL to "open"? =)
 
@@ -127,17 +125,18 @@ import os
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
   def do_GET(self):
     fields = self.path.strip().split('/')
-      if len(fields) >= 3 and fields[-3] == "tmx" and fields[-2] == "rvp":
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-        self.wfile.write(b"OK, tunnel!\n")
-        os.system(f"~/t {fields[-1]}")
-      else:
-        self.send_response(500)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-        self.wfile.write(b"My responses are limited. You must ask the right questions.\n")
+    if len(fields) >= 3 and fields[-3] == "tmx" and fields[-2] == "rvp":
+      self.send_response(200)
+      self.send_header('Content-type', 'text/plain')
+      self.end_headers()
+      self.wfile.write(b"OK, tunnel!\n")
+      print(f"DEBUG: ~/t {fields[-1]}")
+      os.system(f"~/t {fields[-1]}")
+    else:
+      self.send_response(500)
+      self.send_header('Content-type', 'text/plain')
+      self.end_headers()
+      self.wfile.write(b"My responses are limited. You must ask the right questions.\n")
 
 def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler):
   server_address = ('', 8088)
@@ -160,3 +159,37 @@ echo '1) Run the magic on the laptop, gen the QR code.'
 echo '2) Scan this QR code from the tablet, open the URL.'
 echo '3) The tunnel will open. Can `ssh -p 8022 tmx@localhost` now.'
 ```
+
+Now, on the host machine.
+
+(I am skipping the user creation part for now. -- D.K.)
+
+```
+# Make sure the same `fmtqr.py` is available on the host machine.
+[ -s ~/fmtqr.py ] || cat <<EOF >~/fmtqr.py
+import sys
+from colorama import Back, Style
+lines = []
+max_width = 0
+for line in sys.stdin:
+  lines.append(line)
+  max_width = max(max_width, len(line))
+for line in lines:
+  black = None
+  for i in range(max_width):
+    if i >= len(line) or line[i] == "#":
+      if not black == True:
+        black = True
+        print(Back.BLACK, end="")
+    else:
+      if not black == False:
+        black = False
+        print(Back.WHITE, end="")
+    print(" ", end="")
+  print(Style.RESET_ALL)
+EOF
+
+# Generate the QR code. TODO(dkorolev): Explain this in detail!
+echo http://localhost:8088/tmx/rvp/$(ip route get 8.8.8.8 | awk '{printf "%s\n", $7}' | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD | sed 's/\//_/g') | qrencode -t ascii | python3 ~/fmtqr.py
+```
+
