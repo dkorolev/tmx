@@ -10,7 +10,9 @@ Problems solved:
 
 Future work:
 
-* I absolutely love the idea that `.apk`-s can be built by Github actions. Termux itself is open source. Would be great to have a special build to incorporate the contents of this blog post into it. This also opens doors for quick-to-install and quick-to-wipe "devboxes" that run 100% on one's Android device.
+* I absolutely love that `.apk`-s can be built by Github actions. Termux itself is open source. Would be great to have a special build to incorporate the contents of this blog post into it. This also opens doors for quick-to-install and quick-to-wipe "devboxes" that run 100% on one's Android device.
+
+* This idea can be taken further to tighten enterprise-grade security. If your company has sensitive data, "ship" it, as well as the means to work on it in a "device-only" way, as `.apk`-s to install. The data does not leave the device, and the keys are ephemeral, per user, rotated every few days or even hours. Extermely safe. I can imagine tons of use cases where the idea piloted here can be used as the foundation for large-scale solutions deployed to large numbers of people company-wide.
 
 * The QR codes idea may be big. It's a very secure way to exchange short messages. Although `zbarimg` proved to be not good enough, and my first idea to not use any Browser / HTTP server but just take a picture from the Android device and have the scripts do the rest didn't work. 
 
