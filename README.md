@@ -9,7 +9,21 @@ TODO(dkorolev): Add a logfile for remote tunnels open and closed. Add `flock`.
 
 TODO(dkorolev): Have a `localhost:` URL to "open"? =)
 
-This is to be run inside Termux. A single copy-paste.
+Instructions:
+
+* Read the code block below. I've made it to be as trustworthy as possible, but, hey, it's the Internet.
+* (The code is self-contained except my `dotfiles`. So, at least in theory, there is a security hazard present.)
+* Open this page on your Android.
+* Click "Copy text" in the upper right corner below.
+* Locate and install the right Termux `.apk` from its Releases page. I've played with [v0.118.0](https://github.com/termux/termux-app/releases/tag/v0.118.0).
+* Start Termux.
+* Long tap, paste, Enter.
+* Wait until it is done (~2.5 minutes on my Samsung Galaxy S7+ in good enough Internet).
+* Get back to your host machine.
+* Make sure the `tmx` user is created, and that it's ssh-connectable with the key that's now on the Android device.
+* Make sure your host machine and your and run the command from the code block at the bottom of this page.
+* Scan the printed QR code from the Android device.
+* Sacrifice and Apple and `ssh -p 8022 tmx@localhost` !
 
 ```
 # NOTE(dkorolev): This pops out the window for the user to choose "allow" or "deny", better do it first thing, IMHO.
@@ -78,7 +92,6 @@ chmod +x ~/w
 echo '''#!/bin/bash
 #
 # Opens an tunnel and forwards port 8022.
-
 if [ "$1" != "" ] ; then
   echo "Decyphering $1"
   echo "$1"
@@ -92,8 +105,8 @@ if [ "$1" != "" ] ; then
 else
   echo "Need host."
 fi
-''' >t
-chmod +x t
+''' >open_tunnel.sh
+chmod +x open_tunnel.sh
 
 cat <<EOF >s.py
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -107,9 +120,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
       self.send_response(200)
       self.send_header('Content-type', 'text/plain')
       self.end_headers()
-      self.wfile.write(b"OK, tunnel!\n")
-      print(f"DEBUG: ~/t {fields[-1]}")
-      os.system(f"~/t {fields[-1]}")
+      self.wfile.write(b"ssh -p 8022 tmx@localhost  # Should work from the host machine now.\n")
+      print(f"DEBUG: ~/open_tunnel.sh {fields[-1]}")
+      os.system(f"~/open_tunnel.sh {fields[-1]}")
     else:
       self.send_response(500)
       self.send_header('Content-type', 'text/plain')
@@ -147,5 +160,5 @@ Now, on the host machine.
 [ -s ~/fmtqr.py ] || ((cd; wget https://raw.githubusercontent.com/dkorolev/dotfiles/main/fmtqr.py);chmod +x ~/fmtqr.py)
 
 # Generate the QR code. TODO(dkorolev): Explain this in detail!
-echo http://localhost:8088/tmx/rvp/$(ip route get 8.8.8.8 | awk '{printf "%s\n", $7}' | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD | sed 's/\//_/g') | qrencode -t ascii | python3 ~/fmtqr.py && echo && echo 'Run `ssh -p 8022 tmx@localhost` after scanning this QR code from the Android device.'
+echo && echo http://localhost:8088/tmx/rvp/$(ip route get 8.8.8.8 | awk '{printf "%s\n", $7}' | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD | sed 's/\//_/g') | qrencode -t ascii | python3 ~/fmtqr.py && echo && echo 'Run `ssh -p 8022 tmx@localhost` after scanning this QR code from the Android device.'
 ```
