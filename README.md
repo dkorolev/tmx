@@ -174,7 +174,7 @@ if __name__ == '__main__':
   run()
 EOF
 
-python3 s.py >/dev/null &
+python3 s.py >/dev/null 2>&1 &
 
 # whoami
 # ssh -o StrictHostKeyChecking=accept-new -N -R 8022:localhost:8022 tmx@172.20.4.88
