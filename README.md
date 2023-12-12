@@ -66,7 +66,7 @@ sshd
 # passwd
 # ipconfig
 
-cat <<EOF >.fmtqr.py
+cat <<EOF >fmtqr.py
 import sys
 from colorama import Back, Style
 lines = []
@@ -91,13 +91,72 @@ EOF
 
 pip install colorama
 
-echo '(echo -n 'tmx://'; echo "TMXUSER:$(whoami)" | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD) | qrencode -t ascii | python3 .fmtqr.py' >~/w
+# NOTE(dkorolev): Historically, `w` is a one-char command so that it's easy to type from mobile keyboard.
+echo '(echo -n 'tmx://'; echo "TMXUSER:$(whoami)" | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD) | qrencode -t ascii | python3 fmtqr.py' >~/w
 
 chmod +x ~/w
 
-w
+# w
 
-whoami
+cat <<EOF >t
+#!/bin/bash
+#
+# Opens an tunnel and forwards port 8022.
 
-ssh -o StrictHostKeyChecking=accept-new -N -R 8022:localhost:8022 tmx@172.20.4.88
+if [ "$1" != "" ] ; then
+  echo "Decyphering $1"
+  echo "$1"
+  echo -n "$1" | sed 's/_/\//g'
+  if HOST=$(echo $1 | sed 's/_/\//g' | openssl aes-256-cbc -d -a -pbkdf2 -pass pass:$SECRET_TMX_PASSWORD) ; then
+    echo "Opening tunnel to $HOST"
+    ssh -N -R 8022:localhost:8022 tmx@$HOST &
+  else
+    echo 'Can not decypher, ensure the $SECRET_TMX_PASSWORD is correct on both ends.'
+  fi
+else
+  echo "Need host."
+fi
+EOF
+chmod +x t
+
+cat <<EOF >s.py
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+import os
+
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+  def do_GET(self):
+    fields = self.path.strip().split('/')
+      if len(fields) >= 3 and fields[-3] == "tmx" and fields[-2] == "rvp":
+        self.send_response(200)
+        self.send_header('Content-type', 'text/plain')
+        self.end_headers()
+        self.wfile.write(b"OK, tunnel!\n")
+        os.system(f"~/t {fields[-1]}")
+      else:
+        self.send_response(500)
+        self.send_header('Content-type', 'text/plain')
+        self.end_headers()
+        self.wfile.write(b"My responses are limited. You must ask the right questions.\n")
+
+def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler):
+  server_address = ('', 8088)
+  httpd = server_class(server_address, handler_class)
+  httpd.serve_forever()
+
+if __name__ == '__main__':
+  run()
+EOF
+
+python3 s.py &
+
+# whoami
+# ssh -o StrictHostKeyChecking=accept-new -N -R 8022:localhost:8022 tmx@172.20.4.88
+
+echo
+echo 'Everything is up and running. Now:'
+echo
+echo '1) Run the magic on the laptop, gen the QR code.'
+echo '2) Scan this QR code from the tablet, open the URL.'
+echo '3) The tunnel will open. Can `ssh -p 8022 tmx@localhost` now.'
 ```
