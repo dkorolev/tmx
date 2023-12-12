@@ -1,5 +1,19 @@
 # `tmx-tmp`
 
+Before I forget, about the blog post.
+
+Problems solved:
+
+* No need to give Termux all network access. (Solved by starting the reverse SSH tunnel _from_ it, not ssh-ing straight _into_ it.)
+* Need to know the IP address of the host machine. (Solved by a script on the "host" machine.)
+* Need to transfer data from the host machine "into" the Android device. (Solved by a small HTTP server and a QR code that leads to `localhost:8088` on this very Android device).
+
+Future work:
+
+* I absolutely love the idea that `.apk`-s can be built by Github actions. Termux itself is open source. Would be great to have a special build to incorporate the contents of this blog post into it. This also opens doors for quick-to-install and quick-to-wipe "devboxes" that run 100% on one's Android device.
+
+* The QR codes idea may be big. It's a very secure way to exchange short messages. Although `zbarimg` proved to be not good enough, and my first idea to not use any Browser / HTTP server but just take a picture from the Android device and have the scripts do the rest didn't work. 
+
 TODO(dkorolev): Turn this into a blog post. Add a link.
 
 TODO(dkorolev): Add a 403 redirect so that the page in Android's Chrome is not auto-reloading all the time!
@@ -29,6 +43,15 @@ Instructions:
 * Make sure your host machine and your and run the command from the code block at the bottom of this page.
 * Scan the printed QR code from the Android device.
 * Sacrifice and Apple and `ssh -p 8022 tmx@localhost` !
+
+Actually, the last command is:
+
+```
+ssh-keygen -f "/home/ubuntu/.ssh/known_hosts" -R "[localhost]:8022"
+ssh -o StrictHostKeyChecking=accept-new -p 8022 tmx@localhost
+```
+
+TODO(dkorolev): Put this into the script, and into the actual HTTP (post-redirected) response page.
 
 Before I forget, longer-term plans:
 
