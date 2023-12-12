@@ -44,10 +44,7 @@ EOF
 chmod 600 .ssh/id_ed25519.pub
 chmod 600 .ssh/id_ed25519
 
-#git clone https://github.com/dkorolev/dotfiles
-#cp dotfiles/.zshrc .
-
-for i in .zshrc .vimrc .screenrc .inputrc ; do
+for i in .zshrc .vimrc .screenrc .inputrc fmtqr.py ; do
   wget https://raw.githubusercontent.com/dkorolev/dotfiles/main/$i
 done
 
@@ -67,57 +64,35 @@ sshd
 # passwd
 # ipconfig
 
-cat <<EOF >fmtqr.py
-import sys
-from colorama import Back, Style
-lines = []
-max_width = 0
-for line in sys.stdin:
-  lines.append(line)
-  max_width = max(max_width, len(line))
-for line in lines:
-  black = None
-  for i in range(max_width):
-    if i >= len(line) or line[i] == "#":
-      if not black == True:
-        black = True
-        print(Back.BLACK, end="")
-    else:
-      if not black == False:
-        black = False
-        print(Back.WHITE, end="")
-    print(" ", end="")
-  print(Style.RESET_ALL)
-EOF
-
 pip install colorama
+chmod +x fmtqr.py
 
 # NOTE(dkorolev): Historically, `w` is a one-char command so that it's easy to type from mobile keyboard.
-echo '(echo -n 'tmx://'; echo "TMXUSER:$(whoami)" | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD) | qrencode -t ascii | python3 fmtqr.py' >~/w
+# TODO(dkorolev): Remove everything under `scripts/`, and perhaps use an `alias` for the line-liner instead!
 
+echo '(echo -n 'tmx://'; echo "TMXUSER:$(whoami)" | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD) | qrencode -t ascii | python3 fmtqr.py' >~/w
 chmod +x ~/w
 
 # w
 
-cat <<EOF >t
-#!/bin/bash
+echo '''#!/bin/bash
 #
 # Opens an tunnel and forwards port 8022.
 
-if [ "\$1" != "" ] ; then
-  echo "Decyphering \$1"
-  echo "\$1"
-  echo -n "\$1" | sed 's/_/\//g'
-  if HOST=\$(echo \$1 | sed 's/_/\//g' | openssl aes-256-cbc -d -a -pbkdf2 -pass pass:\$SECRET_TMX_PASSWORD) ; then
-    echo "Opening tunnel to \$HOST"
-    ssh -N -R 8022:localhost:8022 tmx@\$HOST &
+if [ "$1" != "" ] ; then
+  echo "Decyphering $1"
+  echo "$1"
+  echo -n "$1" | sed 's/_/\//g'
+  if HOST=$(echo $1 | sed 's/_/\//g' | openssl aes-256-cbc -d -a -pbkdf2 -pass pass:$SECRET_TMX_PASSWORD) ; then
+    echo "Opening tunnel to $HOST"
+    ssh -N -R 8022:localhost:8022 tmx@$HOST &
   else
-    echo 'Can not decypher, ensure the \$SECRET_TMX_PASSWORD is correct on both ends.'
+    echo 'Can not decypher, ensure the $SECRET_TMX_PASSWORD is correct on both ends.'
   fi
 else
   echo "Need host."
 fi
-EOF
+''' >t
 chmod +x t
 
 cat <<EOF >s.py
@@ -159,40 +134,18 @@ echo
 echo 'Everything is up and running. Now:'
 echo
 echo '1) Run the magic on the laptop, gen the QR code.'
-echo '2) Scan this QR code from the tablet, open the URL.'
-echo '3) The tunnel will open. Can `ssh -p 8022 tmx@localhost` now.'
+echo '2) Scan this QR code from the tablet, open the URL. This opens the tunnel.'
+echo '3) Can `ssh -p 8022 tmx@localhost` from the host machine now.'
 ```
 
 Now, on the host machine.
 
-(I am skipping the user creation part for now. -- D.K.)
+(I am skipping the host machine user creation part and SSH host key setup for now. -- D.K.)
 
 ```
 # Make sure the same `fmtqr.py` is available on the host machine.
-[ -s ~/fmtqr.py ] || cat <<EOF >~/fmtqr.py
-import sys
-from colorama import Back, Style
-lines = []
-max_width = 0
-for line in sys.stdin:
-  lines.append(line)
-  max_width = max(max_width, len(line))
-for line in lines:
-  black = None
-  for i in range(max_width):
-    if i >= len(line) or line[i] == "#":
-      if not black == True:
-        black = True
-        print(Back.BLACK, end="")
-    else:
-      if not black == False:
-        black = False
-        print(Back.WHITE, end="")
-    print(" ", end="")
-  print(Style.RESET_ALL)
-EOF
+[ -s ~/fmtqr.py ] || ((cd; wget https://raw.githubusercontent.com/dkorolev/dotfiles/main/fmtqr.py);chmod +x ~/fmtqr.py)
 
 # Generate the QR code. TODO(dkorolev): Explain this in detail!
-echo http://localhost:8088/tmx/rvp/$(ip route get 8.8.8.8 | awk '{printf "%s\n", $7}' | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD | sed 's/\//_/g') | qrencode -t ascii | python3 ~/fmtqr.py
+echo http://localhost:8088/tmx/rvp/$(ip route get 8.8.8.8 | awk '{printf "%s\n", $7}' | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD | sed 's/\//_/g') | qrencode -t ascii | python3 ~/fmtqr.py && echo && echo 'Run `ssh -p 8022 tmx@localhost` after scanning this QR code from the Android device.'
 ```
-
