@@ -101,15 +101,15 @@ cat <<EOF >t
 #
 # Opens an tunnel and forwards port 8022.
 
-if [ "$1" != "" ] ; then
-  echo "Decyphering $1"
-  echo "$1"
-  echo -n "$1" | sed 's/_/\//g'
-  if HOST=$(echo $1 | sed 's/_/\//g' | openssl aes-256-cbc -d -a -pbkdf2 -pass pass:$SECRET_TMX_PASSWORD) ; then
-    echo "Opening tunnel to $HOST"
-    ssh -N -R 8022:localhost:8022 tmx@$HOST &
+if [ "\$1" != "" ] ; then
+  echo "Decyphering \$1"
+  echo "\$1"
+  echo -n "\$1" | sed 's/_/\//g'
+  if HOST=\$(echo \$1 | sed 's/_/\//g' | openssl aes-256-cbc -d -a -pbkdf2 -pass pass:\$SECRET_TMX_PASSWORD) ; then
+    echo "Opening tunnel to \$HOST"
+    ssh -N -R 8022:localhost:8022 tmx@\$HOST &
   else
-    echo 'Can not decypher, ensure the $SECRET_TMX_PASSWORD is correct on both ends.'
+    echo 'Can not decypher, ensure the \$SECRET_TMX_PASSWORD is correct on both ends.'
   fi
 else
   echo "Need host."
