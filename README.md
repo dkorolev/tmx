@@ -134,7 +134,7 @@ if [ "$1" != "" ] ; then
   echo -n "$1" | sed "s/_/\//g"
   if HOST=$(echo $1 | sed "s/_/\//g" | openssl aes-256-cbc -d -a -pbkdf2 -pass pass:$SECRET_TMX_PASSWORD) ; then
     echo "Opening tunnel to $HOST"
-    ssh -o StrictHostKeyChecking=accept-new -N -R 8022:localhost:8022 tmx@$HOST >/dev/null &
+    ssh -o StrictHostKeyChecking=accept-new -N -R 8022:localhost:8022 tmx@$HOST >/dev/null 2>&1 &
   else
     echo "Can not decypher, ensure the \$SECRET_TMX_PASSWORD is correct on both ends."
   fi
