@@ -76,6 +76,7 @@ chmod 700 .ssh
 
 cat <<EOF >>.ssh/authorized_keys
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEeDzRfIMIC+OjsfVGsv9+q2RBeTGX2ZcrNNFa8n0i7o
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHL13Ujd8KlQsE/VJP6s5s934RRN+X/4H16pBqLmiV3J termux@tablet
 EOF
 chmod 600 .ssh/authorized_keys
 
