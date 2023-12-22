@@ -84,7 +84,7 @@ sudo cat /home/tmx/.ssh/authorized_keys
 
 sudo bash -c 'echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHL13Ujd8KlQsE/VJP6s5s934RRN+X/4H16pBqLmiV3J termux@tablet >>/home/tmx/.ssh/authorized_keys'
 
-sudo chown tmx: /home/tmx/.ssh
+sudo chown -R tmx: /home/tmx/.ssh
 sudo chmod 700 /home/tmx/.ssh
 sudo chmod 600 /home/tmx/.ssh/authorized_keys
 ```
