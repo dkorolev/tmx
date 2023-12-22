@@ -236,6 +236,8 @@ echo '3) Can `ssh -p 8022 tmx@localhost` from the host machine now.'
 
 ## Host machine generate QR code
 
+[Up](#tmx)
+
 ```
 [ -s ~/fmtqr.py ] || ((cd; wget https://raw.githubusercontent.com/dkorolev/dotfiles/main/fmtqr.py);chmod +x ~/fmtqr.py)
 
