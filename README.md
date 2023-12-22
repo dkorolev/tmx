@@ -8,7 +8,7 @@ Github has the feature to copy the contents of multiline code blocks to the clip
 
 * Host machine `tmx` user setup: [subsection](#host-machine-setup).
 * Termux commands to copy-paste: [subsection](#commands-inside-termux).
-* Host machine connection QR code generation: [subsection](#host-machine-generat-qr-code).
+* Host machine connection QR code generation: [subsection](#host-machine-generate-qr-code).
 * If using `adb`, install Termux from the host machine: [subsection](#install-termux-via-adb).
 
 Before I forget, about the blog post.
@@ -237,10 +237,10 @@ echo '3) Can `ssh -p 8022 tmx@localhost` from the host machine now.'
 ## Host machine generate QR code
 
 ```
-# Make sure the same `fmtqr.py` is available on the host machine.
 [ -s ~/fmtqr.py ] || ((cd; wget https://raw.githubusercontent.com/dkorolev/dotfiles/main/fmtqr.py);chmod +x ~/fmtqr.py)
 
-# Generate the QR code. TODO(dkorolev): Explain this in detail!
 export SECRET_TMX_PASSWORD=lopata
 echo && echo http://localhost:8088/tmx/rvp/$(ip route get 8.8.8.8 | awk '{printf "%s\n", $7}' | openssl aes-256-cbc -pbkdf2 -a -salt -pass pass:$SECRET_TMX_PASSWORD | sed 's/\//_/g') | qrencode -t ascii | python3 ~/fmtqr.py && echo && echo 'Run `ssh -p 8022 tmx@localhost` after scanning this QR code from the Android device.'
 ```
+
+After scanning this QR code from the Android device with all the above steps completed, the reverse SSH tunnel will open.
