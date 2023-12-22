@@ -61,6 +61,8 @@ Before I forget, longer-term plans:
 
 ## Install Termux via ADB
 
+[Up](#tmx)
+
 This installs Termux [v0.118.0](https://github.com/termux/termux-app/releases/tag/v0.118.0) via `adb` from the hots machine.
 
 Alternatively, open the above link from the Android device, download the APK, and install it manually, by tapping "Install" and enabling the Android browser to install custom APKs.
@@ -73,6 +75,8 @@ adb shell monkey -p com.termux -c android.intent.category.LAUNCHER 1
 ```
 
 ## Host machine setup
+
+[Up](#tmx)
 
 Create the `tmx` user used for reverse tunneling.
 
@@ -97,6 +101,8 @@ sudo rm -rf /home/tmx
 ```
 
 ## Commands inside Termux
+
+[Up](#tmx)
 
 After you "copy" these commands, if you're in `scrcpy`, long-press the main mouse button inside Termux for the menu with "paste" to appear.
 
