@@ -1,26 +1,19 @@
 # `tmx`
 
+TODO(dkorolev): Link to the blog post.
+
+Here are quick links to the respective commands.
+
+Github has the feature to copy the contents of multiline code blocks to the clipboard by clicking or tapping in the upper right corner of the respective code block. This comes in very handy from the mobile device.
+
+Host machine `tmx` user setup: [subsection](#host-machine-setup).
 Termux commands to copy-paste: [subsection](#commands-inside-termux).
 
 Before I forget, about the blog post.
 
 Problems solved:
 
-* No need to give Termux all network access. (Solved by starting the reverse SSH tunnel _from_ it, not ssh-ing straight _into_ it.)
-* Need to know the IP address of the host machine. (Solved by a script on the "host" machine.)
-* Need to transfer data from the host machine "into" the Android device. (Solved by a small HTTP server and a QR code that leads to `localhost:8088` on this very Android device).
-
-Future work:
-
-* I absolutely love that `.apk`-s can be built by Github actions. Termux itself is open source. Would be great to have a special build to incorporate the contents of this blog post into it. This also opens doors for quick-to-install and quick-to-wipe "devboxes" that run 100% on one's Android device.
-
-* This idea can be taken further to tighten enterprise-grade security. If your company has sensitive data, "ship" it, as well as the means to work on it in a "device-only" way, as `.apk`-s to install. The data does not leave the device, and the keys are ephemeral, per user, rotated every few days or even hours. Extermely safe. I can imagine tons of use cases where the idea piloted here can be used as the foundation for large-scale solutions deployed to large numbers of people company-wide.
-
-* The QR codes idea may be big. It's a very secure way to exchange short messages. Although `zbarimg` proved to be not good enough, and my first idea to not use any Browser / HTTP server but just take a picture from the Android device and have the scripts do the rest didn't work. 
-
 * Another minor yet fun idea: Have my Android devices all around the home and/or office turn into a distributed compilation cluster. And build artifacts cache.
-
-TODO(dkorolev): Turn this into a blog post. Add a link.
 
 TODO(dkorolev): Add a 403 redirect so that the page in Android's Chrome is not auto-reloading all the time!
 
@@ -64,6 +57,26 @@ Before I forget, longer-term plans:
 * Convert this into a custom-built `.apk`, in a separate Github repo, built by an Action?
 * Make it easy to build on top of these `.apk`-creating steps, to spawn Android-first dev envs with custom pre-cloned code and pre-built / pre-installed deps.
 * Add support for analyzing QR codes from the SD card, not from the "URL", "followed by" the browser, going to localhost's `python3` HTTP server.
+
+## Host machine setup
+
+
+Create the `tmx` user used for reverse tunneling.
+
+```
+sudo useradd -m tmx
+
+sudo mkdir -p /home/tmx/.ssh
+sudo touch /home/tmx/.ssh/authorized_keys
+sudo cat /home/tmx/.ssh/authorized_keys
+
+sudo bash -c 'echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHL13Ujd8KlQsE/VJP6s5s934RRN+X/4H16pBqLmiV3J termux@tablet >>/home/tmx/.ssh/authorized_keys'
+
+sudo chmod 700 /home/tmx/.ssh
+sudo chmod 600 /home/tmx/.ssh/authorized_keys
+```
+
+FTR, to revert: `sudo userdel tmx ; sudo rm -rf /home/tmx`.
 
 ## Commands inside Termux
 
