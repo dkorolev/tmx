@@ -9,6 +9,7 @@ Github has the feature to copy the contents of multiline code blocks to the clip
 * Host machine `tmx` user setup: [subsection](#host-machine-setup).
 * Termux commands to copy-paste: [subsection](#commands-inside-termux).
 * Host machine connection QR code generation: [subsection](#host-machine-generate-qr-code).
+* Open the connection via the reverse SSH tunnel: [subsection](#connect).
 * If using `adb`, install Termux from the host machine: [subsection](#install-termux-via-adb).
 
 Before I forget, about the blog post.
@@ -44,13 +45,6 @@ Instructions:
 * Make sure your host machine and your and run the command from the code block at the bottom of this page.
 * Scan the printed QR code from the Android device.
 * Sacrifice and Apple and `ssh -p 8022 tmx@localhost` !
-
-Actually, the last command is:
-
-```
-ssh-keygen -f "/home/ubuntu/.ssh/known_hosts" -R "[localhost]:8022"
-ssh -o StrictHostKeyChecking=accept-new -p 8022 tmx@localhost
-```
 
 TODO(dkorolev): Put this into the script, and into the actual HTTP (post-redirected) response page.
 
@@ -246,3 +240,14 @@ echo && echo http://localhost:8088/tmx/rvp/$(ip route get 8.8.8.8 | awk '{printf
 ```
 
 After scanning this QR code from the Android device with all the above steps completed, the reverse SSH tunnel will open.
+
+## Connect
+
+[Up](#tmx)
+
+From the host machine, effectively, just `ssh -p 8022 foo@localhost`. 
+
+```
+ssh-keygen -f "/home/ubuntu/.ssh/known_hosts" -R "[localhost]:8022"
+ssh -o StrictHostKeyChecking=accept-new -p 8022 foo@localhost
+```
