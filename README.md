@@ -1,6 +1,6 @@
 # `tmx`
 
-Termux commands to copy-paste: [subsection](https://github.com/dimacurrentai/tmx-tmp#commands-inside-termux).
+Termux commands to copy-paste: [subsection](#commands-inside-termux).
 
 Before I forget, about the blog post.
 
