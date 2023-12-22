@@ -8,6 +8,7 @@ Github has the feature to copy the contents of multiline code blocks to the clip
 
 * Host machine `tmx` user setup: [subsection](#host-machine-setup).
 * Termux commands to copy-paste: [subsection](#commands-inside-termux).
+* Host machine connection QR code generation: [subsection](#host-machine-generat-qr-code).
 * If using `adb`, install Termux from the host machine: [subsection](#install-termux-via-adb).
 
 Before I forget, about the blog post.
@@ -233,9 +234,7 @@ echo '2) Scan this QR code from the tablet, open the URL. This opens the tunnel.
 echo '3) Can `ssh -p 8022 tmx@localhost` from the host machine now.'
 ```
 
-Now, on the host machine.
-
-(I am skipping the host machine user creation part and SSH host key setup for now. -- D.K.)
+## Host machine generate QR code
 
 ```
 # Make sure the same `fmtqr.py` is available on the host machine.
