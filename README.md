@@ -98,6 +98,8 @@ sudo rm -rf /home/tmx
 
 ## Commands inside Termux
 
+After you "copy" these commands, if you're in `scrcpy`, long-press the main mouse button inside Termux for the menu with "paste" to appear.
+
 ```
 # NOTE(dkorolev): This pops out the window for the user to choose "allow" or "deny", better do it first thing, IMHO.
 # termux-setup-storage
