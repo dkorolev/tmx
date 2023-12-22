@@ -1,4 +1,4 @@
-# `tmx-tmp`
+# `tmx`
 
 Before I forget, about the blog post.
 
