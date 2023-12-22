@@ -8,6 +8,7 @@ Github has the feature to copy the contents of multiline code blocks to the clip
 
 * Host machine `tmx` user setup: [subsection](#host-machine-setup).
 * Termux commands to copy-paste: [subsection](#commands-inside-termux).
+* If using `adb`, install Termux from the host machine: [subsection](#install-termux-via-adb).
 
 Before I forget, about the blog post.
 
@@ -58,8 +59,21 @@ Before I forget, longer-term plans:
 * Make it easy to build on top of these `.apk`-creating steps, to spawn Android-first dev envs with custom pre-cloned code and pre-built / pre-installed deps.
 * Add support for analyzing QR codes from the SD card, not from the "URL", "followed by" the browser, going to localhost's `python3` HTTP server.
 
-## Host machine setup
+## Install Termux via ADB
 
+This installs Termux [v0.118.0](https://github.com/termux/termux-app/releases/tag/v0.118.0) via `adb` from the hots machine.
+
+Alternatively, open the above link from the Android device, download the APK, and install it manually, by tapping "Install" and enabling the Android browser to install custom APKs.
+
+```
+[ -f termux-app_v0.118.0+github-debug_arm64-v8a.apk ] || wget https://github.com/termux/termux-app/releases/download/v0.118.0/termux-app_v0.118.0+github-debug_arm64-v8a.apk
+adb uninstall com.termux
+adb install termux-app_v0.118.0+github-debug_arm64-v8a.apk
+```
+
+You will need to start Termux too, from the Android device manually, or using some `scrcpy`.
+
+## Host machine setup
 
 Create the `tmx` user used for reverse tunneling.
 
