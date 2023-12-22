@@ -6,8 +6,8 @@ Here are quick links to the respective commands.
 
 Github has the feature to copy the contents of multiline code blocks to the clipboard by clicking or tapping in the upper right corner of the respective code block. This comes in very handy from the mobile device.
 
-Host machine `tmx` user setup: [subsection](#host-machine-setup).
-Termux commands to copy-paste: [subsection](#commands-inside-termux).
+* Host machine `tmx` user setup: [subsection](#host-machine-setup).
+* Termux commands to copy-paste: [subsection](#commands-inside-termux).
 
 Before I forget, about the blog post.
 
@@ -76,7 +76,12 @@ sudo chmod 700 /home/tmx/.ssh
 sudo chmod 600 /home/tmx/.ssh/authorized_keys
 ```
 
-FTR, to revert: `sudo userdel tmx ; sudo rm -rf /home/tmx`.
+FTR, to revert:
+
+```
+sudo userdel tmx
+sudo rm -rf /home/tmx
+```
 
 ## Commands inside Termux
 
