@@ -12,21 +12,33 @@ Github has the feature to copy the contents of multiline code blocks to the clip
 * Host machine connection QR code generation: [subsection](#host-machine-generate-qr-code).
 * Open the connection via the reverse SSH tunnel: [subsection](#connect).
 
-Instructions:
+## Instructions
 
-* Read the code block below. I've made it to be as trustworthy as possible, but, hey, it's the Internet.
-* (The code is self-contained except my `dotfiles`. So, at least in theory, there is a security hazard present.)
-* Open this page on your Android.
-* Click "Copy text" in the upper right corner below.
-* Locate and install the right Termux `.apk` from its Releases page. I've played with [v0.118.0](https://github.com/termux/termux-app/releases/tag/v0.118.0).
-* Start Termux.
-* Long tap, paste, Enter.
-* Wait until it is done (~2.5 minutes on my Samsung Galaxy S7+ in good enough Internet).
-* Get back to your host machine.
-* Make sure the `tmx` user is created, and that it's ssh-connectable with the key that's now on the Android device.
-* Make sure your host machine and your and run the command from the code block at the bottom of this page.
-* Scan the printed QR code from the Android device.
-* Sacrifice and Apple and `ssh -p 8022 tmx@localhost` !
+* Read the code blocks below.
+  * I've made it to be as trustworthy as possible, but, hey, it's the Internet.
+  * The code is self-contained except my `dotfiles`. So, at least in theory, there is a security hazard present. Forewarned forearmed.
+* Open this page.
+  * Both on the host machine and on the Android device.
+* Create a local `tmx` user on the host machine.
+  * The first link above.
+* Install Termux on the Android device.
+  * The second link above.
+  * Can install from the device itself, or via `adb`.
+* On the Anroid device, copy the long Termux command into clipboard.
+  * The third link above.
+  * Github conveniently offers a "copy" button in the upper right corner of the large code block.
+* Open Termux on the Android device and run this command.
+  * You will need to accept notifications first.
+  * Long tap, wait until the context menu appears, press "Paste", press "Enter"
+  * Can also do this comfortably via `scrcpy`.
+  * The command runs for about ~2.5 minutes in goog enough Internet (on my Samsung Galaxy S7+; a bit longer on Pixel 3a).
+* Generate the QR code on the host machine.
+  * The fourth link above.
+* Scan this QR code from the Android device.
+  * It should suggest to open a long link starting with `http://localhost`. Open it.
+  * On LineageOS, the camera app does not scan QR codes. Use the QR code scanner from "settings".
+* As the page opens successfully, the reverse SSH tunnel will be open from the Android device to the host machine.
+  * Connect to it from the host machine following the fifth and final link above.
 
 ## Install Termux via ADB
 
