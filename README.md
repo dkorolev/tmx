@@ -1,5 +1,7 @@
 # `tmx`
 
+Termux commands to copy-paste: [subsection](https://github.com/dimacurrentai/tmx-tmp#commands-inside-termux).
+
 Before I forget, about the blog post.
 
 Problems solved:
