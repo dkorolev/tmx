@@ -12,24 +12,6 @@ Github has the feature to copy the contents of multiline code blocks to the clip
 * Host machine connection QR code generation: [subsection](#host-machine-generate-qr-code).
 * Open the connection via the reverse SSH tunnel: [subsection](#connect).
 
-Before I forget, about the blog post.
-
-Problems solved:
-
-* Another minor yet fun idea: Have my Android devices all around the home and/or office turn into a distributed compilation cluster. And build artifacts cache.
-
-TODO(dkorolev): Add a 403 redirect so that the page in Android's Chrome is not auto-reloading all the time!
-
-TODO(dkorolev): Add a note on how many seconds did the setup take.
-TODO(dkorolev): Add the flag to not check the device key to the example final ssh command from the host into Termux.
-
-TODO(dkorolev): Daemonize the HTTP listener.
-TODO(dkorolev): Add a logfile for remote tunnels open and closed. Add `flock`.
-TODO(dkorolev): Don't show terminal output of the HTTP server and `ssh` tunnel-opening code on the screen.
-TODO(dkorolev): Organize the code better, under `scripts/` or `.scripts/`, no one-char names. Aliases are OK though.
-
-TODO(dkorolev): Have a `localhost:` URL to "open"? =)
-
 Instructions:
 
 * Read the code block below. I've made it to be as trustworthy as possible, but, hey, it's the Internet.
@@ -45,14 +27,6 @@ Instructions:
 * Make sure your host machine and your and run the command from the code block at the bottom of this page.
 * Scan the printed QR code from the Android device.
 * Sacrifice and Apple and `ssh -p 8022 tmx@localhost` !
-
-TODO(dkorolev): Put this into the script, and into the actual HTTP (post-redirected) response page.
-
-Before I forget, longer-term plans:
-
-* Convert this into a custom-built `.apk`, in a separate Github repo, built by an Action?
-* Make it easy to build on top of these `.apk`-creating steps, to spawn Android-first dev envs with custom pre-cloned code and pre-built / pre-installed deps.
-* Add support for analyzing QR codes from the SD card, not from the "URL", "followed by" the browser, going to localhost's `python3` HTTP server.
 
 ## Install Termux via ADB
 
@@ -252,3 +226,26 @@ From the host machine, effectively, just `ssh -p 8022 foo@localhost`.
 ssh-keygen -f "/home/ubuntu/.ssh/known_hosts" -R "[localhost]:8022"
 ssh -o StrictHostKeyChecking=accept-new -p 8022 foo@localhost
 ```
+
+## Further Geeking
+
+Relatively straightforward:
+
+* Clean up the scripts to have zero extra dependencies, so that it feels secure enough to “just run” it.
+* Have the logic that runs on the host machine inform the user that the tunnel was successfully open.
+* Make “connection codes” one-time-use. And limit their lifetime to several seconds.
+* Daemonize the HTTP server and the tunnel-opening services properly within Termux.
+* Add a 403 redirect so that the page open in a browser on Android after scanning the QR code is not auto-reloading upon browser re-open.
+* Add a note on how many seconds did the setup take.
+* Add a logfile for remote tunnels open and closed. Guard with `flock`.
+
+Nice-to-have:
+
+* Given Termux is open source, have a custom build of it that incorporates the above. Done right, this gets rid of the need to run any commands.
+* In fact, have this custom build produce the `.apk` from a possibly private Github repo/fork with a pre-built Github action. So that it could, among other things, have my own, secret, private key.
+* When it is a custom app, register the URL schema for some `tmx://` URLs, for more native integration. So that the logic to open the reverse SSH tunnel is run automatically. In fact, the very on-device terminal shell can be hidden by default, as it is largely unused.
+
+Long-term:
+
+* Have all Android devices all around the home and/or office turn into a distributed compilation cluster. And a build artifacts cache.
+* Complete the app with a DAX-like setup, so that with the proper keyboard & screen, this Android device is a full-blown Linux development box.
