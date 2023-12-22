@@ -1,4 +1,6 @@
-# `tmx-tmp`
+# `tmx`
+
+Termux commands to copy-paste: [subsection](#commands-inside-termux).
 
 Before I forget, about the blog post.
 
@@ -62,6 +64,8 @@ Before I forget, longer-term plans:
 * Convert this into a custom-built `.apk`, in a separate Github repo, built by an Action?
 * Make it easy to build on top of these `.apk`-creating steps, to spawn Android-first dev envs with custom pre-cloned code and pre-built / pre-installed deps.
 * Add support for analyzing QR codes from the SD card, not from the "URL", "followed by" the browser, going to localhost's `python3` HTTP server.
+
+## Commands inside Termux
 
 ```
 # NOTE(dkorolev): This pops out the window for the user to choose "allow" or "deny", better do it first thing, IMHO.
