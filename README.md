@@ -69,9 +69,8 @@ Alternatively, open the above link from the Android device, download the APK, an
 [ -f termux-app_v0.118.0+github-debug_arm64-v8a.apk ] || wget https://github.com/termux/termux-app/releases/download/v0.118.0/termux-app_v0.118.0+github-debug_arm64-v8a.apk
 adb uninstall com.termux
 adb install termux-app_v0.118.0+github-debug_arm64-v8a.apk
+adb shell monkey -p com.termux -c android.intent.category.LAUNCHER 1
 ```
-
-You will need to start Termux too, from the Android device manually, or using some `scrcpy`.
 
 ## Host machine setup
 
