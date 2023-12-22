@@ -1,6 +1,8 @@
 # `tmx`
 
-TODO(dkorolev): Link to the blog post.
+Here is the blog post: [Linux Development Experience on Android](https://open.substack.com/pub/dimakorolev/p/linux-development-experience-on-android?r=4nsdh&utm_campaign=post&utm_medium=web&showWelcome=true).
+
+If you need this page on a mobile device, just type in [`t.dima.ai`](http://t.dima.ai) in the browser.
 
 Here are quick links to the respective commands.
 
