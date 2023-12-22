@@ -7,10 +7,10 @@ Here are quick links to the respective commands.
 Github has the feature to copy the contents of multiline code blocks to the clipboard by clicking or tapping in the upper right corner of the respective code block. This comes in very handy from the mobile device.
 
 * Host machine `tmx` user setup: [subsection](#host-machine-setup).
+* If using `adb`, install Termux from the host machine: [subsection](#install-termux-via-adb).
 * Termux commands to copy-paste: [subsection](#commands-inside-termux).
 * Host machine connection QR code generation: [subsection](#host-machine-generate-qr-code).
 * Open the connection via the reverse SSH tunnel: [subsection](#connect).
-* If using `adb`, install Termux from the host machine: [subsection](#install-termux-via-adb).
 
 Before I forget, about the blog post.
 
@@ -84,6 +84,7 @@ sudo cat /home/tmx/.ssh/authorized_keys
 
 sudo bash -c 'echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHL13Ujd8KlQsE/VJP6s5s934RRN+X/4H16pBqLmiV3J termux@tablet >>/home/tmx/.ssh/authorized_keys'
 
+sudo chown tmx: /home/tmx/.ssh
 sudo chmod 700 /home/tmx/.ssh
 sudo chmod 600 /home/tmx/.ssh/authorized_keys
 ```
